@@ -1,24 +1,20 @@
 use std::io::{stdin,stdout,Write};
-//use std::io::Result;
-/*
+use std::io::Result;
+
 enum Value {
-    Int(isize),
     Float(f64),
 }
 
 use Value::*;
+use std::intrinsics::sqrtf64;
 
 fn parse_string(s: &str) -> Option<Value> {
-    if let Ok(i) = s.parse() {
-        Some(Int(i))
-    } else if let Ok(f) = s.parse() {
+     if let Ok(f) = s.parse() {
         Some(Float(f))
     } else {
         None
     }
 }
-no idea how this code works just referencing for future
-*/
 
 fn main() {
     calculator_choice();
@@ -41,9 +37,9 @@ fn calculator_choice(){
         println!("e) Square Roots");
         println!("f) Squares");
         stdin().read_line(&mut cal_choice);
-        if cal_choice == choice_1.parse().unwrap() || cal_choice == choice_2.parse().unwrap() ||
-           cal_choice == choice_3.parse().unwrap() || cal_choice == choice_4.parse().unwrap() ||
-           cal_choice == choice_5.parse().unwrap() || cal_choice == choice_6.parse().unwrap() {
+        if {cal_choice == choice_1.parse().unwrap() || cal_choice == choice_2.parse().unwrap() ||
+            cal_choice == choice_3.parse().unwrap() || cal_choice == choice_4.parse().unwrap() ||
+            cal_choice == choice_5.parse().unwrap() || cal_choice == choice_6.parse().unwrap()} {
            if cal_choice == choice_1.parse().unwrap(){
                addition();
                return();
@@ -95,9 +91,43 @@ fn division(){
 }
 
 fn square(){
-
+    let mut user_input = String::new();
+    let mut square: f64;
+    loop {
+        println! ("enter number:");
+        stdin()
+            .read_line(&mut user_input)
+            .expect("Program error, crashing");
+        let user_input: &str;
+        match parse_string(user_input) {
+            Some(Float(f)) => {
+                let user_input: f64;
+                square = user_input * user_input;
+                println! ("{}", square);
+                return;
+            },
+            None => println!("Invalid entry! not a number"),
+        }
+    }
 }
 
 fn square_root(){
-
+    let mut user_input = String::new();
+    let mut square_root: f64;
+    loop {
+        println! ("enter number:");
+        stdin()
+            .read_line(&mut user_input)
+            .expect("Program error, crashing");
+        let user_input: &str;
+        match parse_string(user_input) {
+            Some(Float(f)) => {
+                let user_input: f64;
+                square_root = unsafe { sqrt(user_input) };
+                println! ("{}", square_root);
+                return;
+            },
+            None => println!("Invalid entry! not a number"),
+        }
+    }
 }
