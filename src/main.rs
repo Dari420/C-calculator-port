@@ -1,5 +1,9 @@
+#![allow(unused)]
+#![feature(core_intrinsics)]
+#![feature(repr128)]
 use std::io::{stdin,stdout,Write};
 use std::io::Result;
+use std::str::FromStr;
 
 enum Value {
     Float(f64),
@@ -7,6 +11,8 @@ enum Value {
 
 use Value::*;
 use std::intrinsics::sqrtf64;
+
+
 
 fn parse_string(s: &str) -> Option<Value> {
      if let Ok(f) = s.parse() {
@@ -17,56 +23,57 @@ fn parse_string(s: &str) -> Option<Value> {
 }
 
 fn main() {
-    calculator_choice();
-    ask_again();
+    loop {
+        calculator_choice();
+        ask_again();
+    }
 }
 
-fn calculator_choice(){
+fn calculator_choice() {
     let mut cal_choice = String::new();
-    let choice_1 = "a";
-    let choice_2 = "b";
-    let choice_3 = "c";
-    let choice_4 = "d";
-    let choice_5 = "e";
-    let choice_6 = "f";
-    loop{
+    let choice_1 = "a".to_string();
+    let choice_2 = "b".to_string();
+    let choice_3 = "c".to_string();
+    let choice_4 = "d".to_string();
+    let choice_5 = "e".to_string();
+    let choice_6 = "f".to_string();
+    loop {
         println!("a) Addition");
         println!("b) Subtraction ");
         println!("c) Multiplication");
         println!("d) Division");
         println!("e) Square Roots");
         println!("f) Squares");
-        stdin().read_line(&mut cal_choice);
-        if {cal_choice == choice_1.parse().unwrap() || cal_choice == choice_2.parse().unwrap() ||
-            cal_choice == choice_3.parse().unwrap() || cal_choice == choice_4.parse().unwrap() ||
-            cal_choice == choice_5.parse().unwrap() || cal_choice == choice_6.parse().unwrap()} {
-           if cal_choice == choice_1.parse().unwrap(){
-               addition();
-               return();
-           }
-           else if cal_choice == choice_2.parse().unwrap() {
-               subtraction();
-               return();
-           }
-           else if cal_choice == choice_3.parse().unwrap() {
-               multiplication();
-               return();
-           }
-           else if cal_choice == choice_4.parse().unwrap() {
-               division();
-               return();
-           }
-           else if cal_choice == choice_5.parse().unwrap() {
-               square();
-               return();
-           }
-           else if cal_choice == choice_6.parse().unwrap() {
-               square_root();
-               return();
-           }
-        }
-        else {
-            println!("Invalid entry! Please choose a, b, c, d, e, or f");
+        stdin()
+            .read_line(&mut cal_choice)
+            .expect("invalid input! crashing"); {
+            match cal_choice {
+                choice_1 if true => {
+                    addition();
+                    break;
+                }
+                choice_2 if true => {
+                    subtraction();
+                    break;
+                },
+                choice_3 if true => {
+                    multiplication();
+                    break;
+                },
+                choice_4 if true => {
+                    division();
+                    break;
+                },
+                choice_5 if true => {
+                    square_root();
+                    break;
+                },
+                choice_6 if true => {
+                    square();
+                    break;
+                },
+                _ => println!("Invalid entry! Please choose a, b, c, ,d, e, or f"),
+            }
         }
     }
 }
@@ -98,13 +105,12 @@ fn square(){
         stdin()
             .read_line(&mut user_input)
             .expect("Program error, crashing");
-        let user_input: &str;
-        match parse_string(user_input) {
+        match parse_string(&user_input) {
             Some(Float(f)) => {
-                let user_input: f64;
-                square = user_input * user_input;
+                let corrected_user_input = f64::from_str(&user_input).unwrap();
+                square = corrected_user_input * corrected_user_input;
                 println! ("{}", square);
-                return;
+                break;
             },
             None => println!("Invalid entry! not a number"),
         }
@@ -119,13 +125,12 @@ fn square_root(){
         stdin()
             .read_line(&mut user_input)
             .expect("Program error, crashing");
-        let user_input: &str;
-        match parse_string(user_input) {
+        match parse_string(&user_input) {
             Some(Float(f)) => {
-                let user_input: f64;
-                square_root = unsafe { sqrt(user_input) };
+                let corrected_user_input = f64::from_str(&user_input).unwrap();
+                square_root = corrected_user_input.sqrt();
                 println! ("{}", square_root);
-                return;
+                break;
             },
             None => println!("Invalid entry! not a number"),
         }
