@@ -31,12 +31,12 @@ fn main() {
 
 fn calculator_choice() {
     let mut cal_choice = String::new();
-    let choice_1 = "a".to_string();
-    let choice_2 = "b".to_string();
-    let choice_3 = "c".to_string();
-    let choice_4 = "d".to_string();
-    let choice_5 = "e".to_string();
-    let choice_6 = "f".to_string();
+    let choice_1 = "a";
+    let choice_2 = "b";
+    let choice_3 = "c";
+    let choice_4 = "d";
+    let choice_5 = "e";
+    let choice_6 = "f";
     loop {
         println!("a) Addition");
         println!("b) Subtraction ");
@@ -47,7 +47,7 @@ fn calculator_choice() {
         stdin()
             .read_line(&mut cal_choice)
             .expect("invalid input! crashing"); {
-            match cal_choice {
+            match cal_choice.trim_end() {
                 choice_1 if true => {
                     addition();
                     break;
@@ -77,7 +77,50 @@ fn calculator_choice() {
         }
     }
 }
-
+/*
+fn calculator_choice() {
+    let mut cal_choice = String::new();
+    loop {
+        println!("a) Addition");
+        println!("b) Subtraction ");
+        println!("c) Multiplication");
+        println!("d) Division");
+        println!("e) Square Roots");
+        println!("f) Squares");
+        stdin()
+            .read_line(&mut cal_choice)
+            .expect("invalid input! crashing"); {
+            match cal_choice.trim_right() {
+                "a" => {
+                    addition();
+                    break;
+                },
+                "b" => {
+                    subtraction();
+                    break;
+                },
+                "c" => {
+                    multiplication();
+                    break;
+                },
+                "d" => {
+                    division();
+                    break;
+                },
+                "e" => {
+                    square_root();
+                    break;
+                },
+                "f" => {
+                    square();
+                    break;
+                },
+                _ => println!("Invalid entry! Please choose a, b, c, ,d, e, or f"),
+            }
+        }
+    }
+}
+*/
 fn ask_again(){
 
 }
