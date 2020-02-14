@@ -6,17 +6,23 @@ use std::io::Result;
 use std::str::FromStr;
 
 enum Value {
+    Int(isize),
     Float(f64),
 }
 
-use Value::*;
 use std::intrinsics::sqrtf64;
 
 
+// This function is not limited to just numeric types but rather anything that implements the FromStr trait.
+fn parsable<T: FromStr>(s: &str) -> bool {
+    s.parse::<T>().is_ok()
+}
 
 fn parse_string(s: &str) -> Option<Value> {
-     if let Ok(f) = s.parse() {
-        Some(Float(f))
+    if let Ok(i) = s.parse() {  // inferred as isize from next line
+        Some(Value::Int(i))
+    } else if let Ok(f) = s.parse() {
+        Some(Value::Float(f))
     } else {
         None
     }
@@ -31,12 +37,6 @@ fn main() {
 
 fn calculator_choice() {
     let mut cal_choice = String::new();
-    let choice_1 = "a";
-    let choice_2 = "b";
-    let choice_3 = "c";
-    let choice_4 = "d";
-    let choice_5 = "e";
-    let choice_6 = "f";
     loop {
         println!("a) Addition");
         println!("b) Subtraction ");
@@ -48,49 +48,6 @@ fn calculator_choice() {
             .read_line(&mut cal_choice)
             .expect("invalid input! crashing"); {
             match cal_choice.trim_end() {
-                choice_1 if true => {
-                    addition();
-                    break;
-                }
-                choice_2 if true => {
-                    subtraction();
-                    break;
-                },
-                choice_3 if true => {
-                    multiplication();
-                    break;
-                },
-                choice_4 if true => {
-                    division();
-                    break;
-                },
-                choice_5 if true => {
-                    square_root();
-                    break;
-                },
-                choice_6 if true => {
-                    square();
-                    break;
-                },
-                _ => println!("Invalid entry! Please choose a, b, c, ,d, e, or f"),
-            }
-        }
-    }
-}
-/*
-fn calculator_choice() {
-    let mut cal_choice = String::new();
-    loop {
-        println!("a) Addition");
-        println!("b) Subtraction ");
-        println!("c) Multiplication");
-        println!("d) Division");
-        println!("e) Square Roots");
-        println!("f) Squares");
-        stdin()
-            .read_line(&mut cal_choice)
-            .expect("invalid input! crashing"); {
-            match cal_choice.trim_right() {
                 "a" => {
                     addition();
                     break;
@@ -120,7 +77,7 @@ fn calculator_choice() {
         }
     }
 }
-*/
+
 fn ask_again(){
 
 }
@@ -148,34 +105,50 @@ fn square(){
         stdin()
             .read_line(&mut user_input)
             .expect("Program error, crashing");
-        match parse_string(&user_input) {
-            Some(Float(f)) => {
-                let corrected_user_input = f64::from_str(&user_input).unwrap();
-                square = corrected_user_input * corrected_user_input;
-                println! ("{}", square);
-                break;
+        /*
+        let mut parsed_user_input = &user_input.to_owned().parse::<f32>();
+        if (parsed_user_input.is_err()) {
+            println!("Invalid entry! not a number");
+        }
+        else {
+            square = parsed_user_input.parse().unwrap() * parsed_user_input.parse().unwrap();
+            println! ("{}", square);
+            break;
+        }*/
+        match parse_string(&user_input.to_string()) {
+            Some(Value::Int(i)) => {
+                i * i;
             },
-            None => println!("Invalid entry! not a number"),
+            Some(Value::Float(f)) => {
+                f * f;
+            },
+            None => println!("Invalid entry! Not a number"),
         }
     }
 }
 
 fn square_root(){
     let mut user_input = String::new();
-    let mut square_root: f64;
     loop {
         println! ("enter number:");
         stdin()
             .read_line(&mut user_input)
             .expect("Program error, crashing");
         match parse_string(&user_input) {
-            Some(Float(f)) => {
-                let corrected_user_input = f64::from_str(&user_input).unwrap();
-                square_root = corrected_user_input.sqrt();
+            Some(Value::Float(f)) => {
+                let mut square_root: f64;
+                square_root = f.sqrt();
                 println! ("{}", square_root);
                 break;
             },
+            Some(Value::Int(i)) => {
+                let mut square_root2: f64;
+                square_root2 = (i as f64).sqrt();
+                println! ("{}", square_root2);
+                break;
+            }
             None => println!("Invalid entry! not a number"),
+            _ => {}
         }
     }
 }
