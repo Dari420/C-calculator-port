@@ -105,22 +105,22 @@ fn square(){
         stdin()
             .read_line(&mut user_input)
             .expect("Program error, crashing");
-        /*
-        let mut parsed_user_input = &user_input.to_owned().parse::<f32>();
-        if (parsed_user_input.is_err()) {
-            println!("Invalid entry! not a number");
-        }
-        else {
-            square = parsed_user_input.parse().unwrap() * parsed_user_input.parse().unwrap();
-            println! ("{}", square);
-            break;
-        }*/
-        match parse_string(&user_input.to_string()) {
+        let no_enter_input =  &user_input.replace("\n", "");
+       /* debug
+        let str_input2= "2345";
+        assert_eq!(str_input, str_input2);
+        println! ("{}", str_input);
+        */
+        match parse_string(&no_enter_input) {
             Some(Value::Int(i)) => {
-                i * i;
+                let output = i * i;
+                println!("{}", output);
+                break;
             },
             Some(Value::Float(f)) => {
-                f * f;
+                let output2 = f * f;
+                println!("{}", output2);
+                break;
             },
             None => println!("Invalid entry! Not a number"),
         }
@@ -134,7 +134,8 @@ fn square_root(){
         stdin()
             .read_line(&mut user_input)
             .expect("Program error, crashing");
-        match parse_string(&user_input) {
+        let no_enter_input =  &user_input.replace("\n", "");
+        match parse_string(&no_enter_input) {
             Some(Value::Float(f)) => {
                 let mut square_root: f64;
                 square_root = f.sqrt();
@@ -148,7 +149,6 @@ fn square_root(){
                 break;
             }
             None => println!("Invalid entry! not a number"),
-            _ => {}
         }
     }
 }
