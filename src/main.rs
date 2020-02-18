@@ -8,6 +8,7 @@ enum Value {
 }
 
 fn main() {
+    println! ("hello there");
     loop {
         calculator_choice();
         ask_again();
@@ -79,7 +80,7 @@ fn calculations(choice: String) -> bool{
         stdin()
             .read_line(&mut user_input1)
             .expect("Program error, crashing");
-        let no_enter_input1: &str = &user_input1.replace("\n", "");
+        let no_enter_input1: &str = &user_input1.replace("\r\n", "").replace("\n", "");
         match parse_string(&no_enter_input1) {
             Some(Value::Float(f)) => {
                 match choice.trim_end() {
@@ -99,7 +100,7 @@ fn calculations(choice: String) -> bool{
                     stdin()
                         .read_line(&mut user_input2)
                         .expect("Program error, crashing");
-                    let no_enter_input2: &str = &user_input2.replace("\n", "");
+                    let no_enter_input2: &str = &user_input2.replace("\r\n", "").replace("\n", "");
                     match parse_string(&no_enter_input2) {
                         Some(Value::Float(a)) => {
                             match choice.trim_end() {
