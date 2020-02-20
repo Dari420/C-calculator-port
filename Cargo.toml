@@ -1,5 +1,5 @@
 [package]
-name = "c_calculator_port"
+name = "c_calculator_port_rust"
 version = "0.1.0"
 authors = ["Dari <Dari>"]
 edition = "2018"

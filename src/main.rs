@@ -8,7 +8,6 @@ enum Value {
 }
 
 fn main() {
-    println! ("hello there");
     loop {
         calculator_choice();
         ask_again();
@@ -26,6 +25,7 @@ fn parse_string(s: &str) -> Option<Value> {
 fn calculator_choice() {
     loop {
         let mut cal_choice = String::new();
+        println!("Choose option:");
         println!("a) Addition");
         println!("b) Subtraction ");
         println!("c) Multiplication");
