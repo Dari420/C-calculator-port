@@ -15,7 +15,7 @@ fn main() {
 }
 
 fn parse_string(s: &str) -> Option<Value> {
-    if let Ok(f) = s.parse() {  // inferred as isize from next line
+    if let Ok(f) = s.parse() {
         Some(Value::Float(f))
     } else {
         None
