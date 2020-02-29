@@ -227,16 +227,20 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                             break 'outer_2;
                         },
                         "a" => {
-                            println!("{:?}", prime_sieve(u));
-                            /*if ask_write_file() {
+                            println! ("Calculating Primes...");
+                            sleep(Duration::new(0, 300000000));
+                            /*let final_prime_array = prime_sieve(u);
+                            let parse = format!("{:?}", final_prime_array);
+                            let parse_no_bracket = parse.replace("[", "").replace("]", "");
+                            println! ("{}", parse_no_bracket);*/
+                            prime_sieve(u, false);
+                            if ask_write_file() {
                                 let path = Path::new("output.txt"); //path, change to whatever
                                 File::create(path)
                                     .expect("Error writing file (hint: maybe denied permissions?");
-                                let final_prime_array = prime_sieve(u);
-                                let parse = final_prime_array.as_ptr();
-                                fs::write(path, parse)
+                                fs::write(path, (format! ("{:?}", prime_sieve(u, true))).replace("[", "").replace("]", ""))
                                     .expect("Error writing file (hint: maybe denied permissions?"); //write val
-                            } troubleshoot later*/
+                            }
                             break 'outer_2;
                         },
                         _ => println! ("fatal error")
@@ -271,12 +275,10 @@ fn write_file(f: f64) {
 }
 to troubleshoot later
 */
-fn prime_sieve(limit: usize) -> Vec<usize> {
-
+fn prime_sieve(limit: usize, print: bool) -> Vec<usize> {
     let mut is_prime = vec![true; limit+1];
     is_prime[0] = false;
     if limit >= 1 { is_prime[1] = false }
-
     for num in 2..limit+1 {
         if is_prime[num] {
             let mut multiple = num*num;
@@ -285,6 +287,18 @@ fn prime_sieve(limit: usize) -> Vec<usize> {
                 multiple += num;
             }
         }
+    }
+    if print == false {
+        let value: Vec<usize> = is_prime.iter().enumerate()
+            .filter_map(|(pr, &is_pr)| if is_pr { Some(pr) } else { None })
+            .collect();
+        let bracket = format!("{:?}", value);
+        let no_bracket = bracket.replace("[", "").replace("]", "");
+        println!("{}", no_bracket);
+        println!("Found {} primes", &is_prime.iter().filter(|&n| *n == true).count());
+        sleep(Duration::new(0, 300000000));
+    }
+    else {
     }
     is_prime.iter().enumerate()
         .filter_map(|(pr, &is_pr)| if is_pr {Some(pr)} else {None} )
