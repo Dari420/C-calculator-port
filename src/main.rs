@@ -11,12 +11,12 @@ Float(f64),
 }
 
 enum Value2 {
-    Int(isize),
+    Uns(usize),
 }
 
 fn parse_string2(s: &str) -> Option<Value2> { //parses for an int
-    if let Ok(i) = s.parse() {
-        Some(Value2::Int(i))
+    if let Ok(u) = s.parse() {
+        Some(Value2::Uns(u))
     } else {
         None
     }
@@ -42,13 +42,14 @@ fn calculator_choice() { //ask for choice and pass it down to calculation functi
     loop {
         let mut cal_choice = String::new();
         println!("Choose operation:");
-        println!("a) Square Roots");
-        println!("b) Squares");
-        println!("c) Multiplication Table");
-        println!("d) Addition");
-        println!("e) Subtraction");
-        println!("f) Multiplication");
-        println!("g) Division");
+        println!("a) Prime Numbers");
+        println!("b) Square Roots");
+        println!("c) Squares");
+        println!("d) Multiplication Table");
+        println!("e) Addition");
+        println!("f) Subtraction");
+        println!("g) Multiplication");
+        println!("h) Division");
         stdin()
             .read_line(&mut cal_choice)
             .expect("invalid input! crashing");
@@ -104,9 +105,9 @@ fn ask_write_file() -> bool { //ask if user wants to write output to file
 }
 
 fn calculations(choice: String) -> bool{ //checks for choice and outputs based on choice
-    if choice.trim_end() == "a" || choice.trim_end() == "b" || //if the choice isn't in listed then return false and tell the choice function to ask again
-        choice.trim_end() == "d" || choice.trim_end() == "e" ||
-        choice.trim_end() == "f" || choice.trim_end() == "g" { //if it is, go in a loop until the output has been given
+    if choice.trim_end() == "b" || choice.trim_end() == "c" || //if the choice isn't in listed then return false and tell the choice function to ask again
+        choice.trim_end() == "e" || choice.trim_end() == "f" ||
+        choice.trim_end() == "g" || choice.trim_end() == "h" { //if it is, go in a loop until the output has been given
         'outer: loop {
             //let mut contents = fs::read_to_string(path)
             //.expect("Error: file doesnt exist");
@@ -119,14 +120,14 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
             match parse_string(&no_enter_input1) { //parse for float
                 Some(Value::Float(f)) => {
                     match choice.trim_end() { //check choice
-                        "a" => {
+                        "b" => {
                             println! ("{}", f.sqrt());
                             if ask_write_file() {
                                 write_file_primitive((f.sqrt()));
                             }
                             break 'outer;
                         },
-                        "b" => {
+                        "c" => {
                             println! ("{}", f * f);
                             if ask_write_file() {
                                 write_file_primitive((f * f));
@@ -145,28 +146,28 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                         match parse_string(&no_enter_input2) {
                             Some(Value::Float(a)) => {
                                 match choice.trim_end() { //check which specific option was chosen
-                                    "d" => {
+                                    "e" => {
                                         println! ("{}", f + a);
                                         if ask_write_file() {
                                             write_file_primitive((f + a));
                                         }
                                         break 'outer;
                                     },
-                                    "e" => {
+                                    "f" => {
                                         println! ("{}", f - a);
                                         if ask_write_file() {
                                             write_file_primitive((f - a));
                                         }
                                         break 'outer;
                                     },
-                                    "f" => {
+                                    "g" => {
                                         println! ("{}", f * a);
                                         if ask_write_file() {
                                             write_file_primitive((f * a));
                                         }
                                         break 'outer;
                                     },
-                                    "g" => {
+                                    "h" => {
                                         println! ("{}", f / a);
                                         if ask_write_file() {
                                             write_file_primitive((f / a));
@@ -185,7 +186,7 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
         }
         return true;
     }
-    else if choice.trim_end() == "c" { //if choice is int-specific then go here
+    else if choice.trim_end() == "d" ||  choice.trim_end() == "a" { //if choice is int-specific then go here
         'outer_2: loop {
             let mut user_input1b = String::new();
             println!("Enter first number:");
@@ -194,33 +195,52 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                 .expect("Program error, crashing");
             let no_enter_input1b: &str = &user_input1b.replace("\r\n", "").replace("\n", "");
             match parse_string2(&no_enter_input1b) { //parses for an int
-                Some(Value2::Int(i)) => {
+                Some(Value2::Uns(u)) => {
                     let path = Path::new("output.txt");
                     let mut data_to_write = String::new();
                     let mut multiplier_rows: isize = 0;
                     let mut multiplier_cols: isize = 0;
                     let mut product: isize;
-                    for _rows in 0isize..i {
-                        multiplier_rows += 1;
-                        multiplier_cols = 0;
-                        for _columns in 0isize..i {
-                            multiplier_cols += 1;
-                            product = &multiplier_rows * multiplier_cols;
-                            print!("{}, ", product);
-                            &data_to_write.push_str(&product.to_string());
-                            &data_to_write.push_str(", ");
-                        }
-                        &data_to_write.push_str("\n");
-                        print!("\n")
+                    let mut prime_limit = String::new();
+                    match choice.trim_end() {
+                        "d" => {
+                            for _rows in 0usize..u {
+                                multiplier_rows += 1;
+                                multiplier_cols = 0;
+                                for _columns in 0usize..u {
+                                    multiplier_cols += 1;
+                                    product = &multiplier_rows * multiplier_cols;
+                                    print!("{}, ", product);
+                                    &data_to_write.push_str(&product.to_string());
+                                    &data_to_write.push_str(", ");
+                                }
+                                &data_to_write.push_str("\n");
+                                print!("\n")
+                            }
+                            if ask_write_file() { //I am not using the function here because this is a string so i cannot apply the typical function here.
+                                File::create(path)
+                                    .expect("Error writing file (hint: maybe denied permissions?");
+                                fs::write(path, &data_to_write)
+                                    .expect("Error writing file (hint: maybe denied permissions?"); //write val
+                            }
+                            println!("Done");
+                            break 'outer_2;
+                        },
+                        "a" => {
+                            println!("{:?}", prime_sieve(u));
+                            /*if ask_write_file() {
+                                let path = Path::new("output.txt"); //path, change to whatever
+                                File::create(path)
+                                    .expect("Error writing file (hint: maybe denied permissions?");
+                                let final_prime_array = prime_sieve(u);
+                                let parse = final_prime_array.as_ptr();
+                                fs::write(path, parse)
+                                    .expect("Error writing file (hint: maybe denied permissions?"); //write val
+                            } troubleshoot later*/
+                            break 'outer_2;
+                        },
+                        _ => println! ("fatal error")
                     }
-                    if ask_write_file() { //I am not using the function here because this is a string so i cannot apply the typical function here.
-                        File::create(path)
-                            .expect("Error writing file (hint: maybe denied permissions?");
-                        fs::write(path, &data_to_write)
-                            .expect("Error writing file (hint: maybe denied permissions?"); //write val
-                    }
-                    println!("Done");
-                    break 'outer_2;
                 },
                 None => println!("Invalid entry! Not a number"),
             }
@@ -251,6 +271,25 @@ fn write_file(f: f64) {
 }
 to troubleshoot later
 */
+fn prime_sieve(limit: usize) -> Vec<usize> {
+
+    let mut is_prime = vec![true; limit+1];
+    is_prime[0] = false;
+    if limit >= 1 { is_prime[1] = false }
+
+    for num in 2..limit+1 {
+        if is_prime[num] {
+            let mut multiple = num*num;
+            while multiple <= limit {
+                is_prime[multiple] = false;
+                multiple += num;
+            }
+        }
+    }
+    is_prime.iter().enumerate()
+        .filter_map(|(pr, &is_pr)| if is_pr {Some(pr)} else {None} )
+        .collect()
+}
 
 fn write_file_primitive (result: f64) { //write result to file
     let path = Path::new("output.txt"); //path, change to whatever
