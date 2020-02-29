@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Google-SDK-App.iml" filepath="$PROJECT_DIR$/.idea/Google-SDK-App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/c_calculator_port_rust.iml" filepath="$PROJECT_DIR$/.idea/c_calculator_port_rust.iml" />
     </modules>
   </component>
 </project>
