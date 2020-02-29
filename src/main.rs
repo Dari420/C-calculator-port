@@ -220,7 +220,7 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                                 println!("Enter filename:");
                                 stdin().read_line(&mut path_input)
                                     .expect("error reading filename line");
-                                path_input.truncate(path_input.len() - 2);
+                                path_input.truncate(path_input.len() - 1);
                                 let path_input_final = format! ("./outputs/{}.txt", path_input);
                                 println! ("Name: {}", path_input_final);
                                 fs::create_dir_all("outputs")
@@ -245,7 +245,7 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                                 println!("Enter filename:");
                                 stdin().read_line(&mut path_input)
                                     .expect("error reading filename line");
-                                path_input.truncate(path_input.len() - 2);
+                                path_input.truncate(path_input.len() - 1);
                                 let path_input_final = format! ("./outputs/{}.txt", path_input);
                                 println! ("Name: {}", path_input_final);
                                 fs::create_dir_all("outputs")
@@ -327,7 +327,7 @@ fn write_file_primitive (result: f64) { //write result to file
     println!("Enter filename:");
     stdin().read_line(&mut path_input)
         .expect("error reading filename line");
-    path_input.truncate(path_input.len() - 2); //remove newline
+    path_input.truncate(path_input.len() - 1); //remove newline
     let path_input_final = format! ("./outputs/{}.txt", path_input); //add extension
     println! ("Name: {}", path_input_final);
     fs::create_dir_all("outputs")
