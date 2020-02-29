@@ -1,10 +1,11 @@
-use std::io::{stdin};
+use std::io::{stdin, Read};
 use std::time::Duration;
 use std::thread::{sleep};
 use std::process::exit;
 use std::fs;
 use std::fs::File;
 use std::path::Path;
+use std::convert::TryFrom;
 
 enum Value { //enums to match on
 Float(f64),
@@ -91,8 +92,6 @@ fn ask_write_file() -> bool { //ask if user wants to write output to file
             .expect("Invalid entry! crashing");
         match write_or_not.trim_end() {
             "y" => {
-                println! ("Writing file..");
-                sleep(Duration::new(0, 600000000));
                 break true;
             },
             "n" => {
@@ -123,14 +122,14 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                         "b" => {
                             println! ("{}", f.sqrt());
                             if ask_write_file() {
-                                write_file_primitive((f.sqrt()));
+                                write_file_primitive(f.sqrt());
                             }
                             break 'outer;
                         },
                         "c" => {
                             println! ("{}", f * f);
                             if ask_write_file() {
-                                write_file_primitive((f * f));
+                                write_file_primitive(f * f);
                             }
                             break 'outer;
                         },
@@ -149,28 +148,28 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                                     "e" => {
                                         println! ("{}", f + a);
                                         if ask_write_file() {
-                                            write_file_primitive((f + a));
+                                            write_file_primitive(f + a);
                                         }
                                         break 'outer;
                                     },
                                     "f" => {
                                         println! ("{}", f - a);
                                         if ask_write_file() {
-                                            write_file_primitive((f - a));
+                                            write_file_primitive(f - a);
                                         }
                                         break 'outer;
                                     },
                                     "g" => {
                                         println! ("{}", f * a);
                                         if ask_write_file() {
-                                            write_file_primitive((f * a));
+                                            write_file_primitive(f * a);
                                         }
                                         break 'outer;
                                     },
                                     "h" => {
                                         println! ("{}", f / a);
                                         if ask_write_file() {
-                                            write_file_primitive((f / a));
+                                            write_file_primitive(f / a);
                                         }
                                         break 'outer;
                                     },
@@ -201,7 +200,6 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                     let mut multiplier_rows: isize = 0;
                     let mut multiplier_cols: isize = 0;
                     let mut product: isize;
-                    let mut prime_limit = String::new();
                     match choice.trim_end() {
                         "d" => {
                             for _rows in 0usize..u {
@@ -218,9 +216,21 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                                 print!("\n")
                             }
                             if ask_write_file() { //I am not using the function here because this is a string so i cannot apply the typical function here.
-                                File::create(path)
+                                let mut path_input= String::new(); //create empty path
+                                println!("Enter filename:");
+                                stdin().read_line(&mut path_input)
+                                    .expect("error reading filename line");
+                                path_input.truncate(path_input.len() - 1);
+                                let path_input_final = format! ("./outputs/{}.txt", path_input);
+                                println! ("Name: {}", path_input_final);
+                                fs::create_dir_all("outputs")
+                                    .expect("error making output directory: directory either exists or permissions are not granted");
+                                let path = Path::new(&path_input_final);
+                                println! ("Writing file..");
+                                sleep(Duration::new(0, 600000000));
+                                File::create(&path)
                                     .expect("Error writing file (hint: maybe denied permissions?");
-                                fs::write(path, &data_to_write)
+                                fs::write(&path, &data_to_write)
                                     .expect("Error writing file (hint: maybe denied permissions?"); //write val
                             }
                             println!("Done");
@@ -229,17 +239,24 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                         "a" => {
                             println! ("Calculating Primes...");
                             sleep(Duration::new(0, 300000000));
-                            /*let final_prime_array = prime_sieve(u);
-                            let parse = format!("{:?}", final_prime_array);
-                            let parse_no_bracket = parse.replace("[", "").replace("]", "");
-                            println! ("{}", parse_no_bracket);*/
                             prime_sieve(u, false);
                             if ask_write_file() {
-                                let path = Path::new("output.txt"); //path, change to whatever
-                                File::create(path)
+                                let mut path_input= String::new(); //create empty path
+                                println!("Enter filename:");
+                                stdin().read_line(&mut path_input)
+                                    .expect("error reading filename line");
+                                path_input.truncate(path_input.len() - 1);
+                                let path_input_final = format! ("./outputs/{}.txt", path_input);
+                                println! ("Name: {}", path_input_final);
+                                fs::create_dir_all("outputs")
+                                    .expect("error making output directory: directory either exists or permissions are not granted");
+                                let path = Path::new(&path_input_final);
+                                println! ("Writing file..");
+                                sleep(Duration::new(0, 600000000));
+                                File::create(&path)
                                     .expect("Error writing file (hint: maybe denied permissions?");
-                                fs::write(path, (format! ("{:?}", prime_sieve(u, true))).replace("[", "").replace("]", ""))
-                                    .expect("Error writing file (hint: maybe denied permissions?"); //write val
+                                fs::write(&path, (format! ("{:?}", prime_sieve(u, true))).replace("[", "").replace("]", ""))
+                                    .expect("Error writing file (hint: maybe denied permissions?");
                             }
                             break 'outer_2;
                         },
@@ -306,9 +323,20 @@ fn prime_sieve(limit: usize, print: bool) -> Vec<usize> {
 }
 
 fn write_file_primitive (result: f64) { //write result to file
-    let path = Path::new("output.txt"); //path, change to whatever
-    File::create(path)
+    let mut path_input= String::new(); //create empty path
+    println!("Enter filename:");
+    stdin().read_line(&mut path_input)
+        .expect("error reading filename line");
+    path_input.truncate(path_input.len() - 1); //remove newline
+    let path_input_final = format! ("./outputs/{}.txt", path_input); //add extension
+    println! ("Name: {}", path_input_final);
+    fs::create_dir_all("outputs")
+        .expect("error making output directory: directory either exists or permissions are not granted");
+    let path = Path::new(&path_input_final);
+    println! ("Writing file..");
+    sleep(Duration::new(0, 600000000));
+    File::create(&path)
         .expect("Error writing file (hint: maybe denied permissions?");
-    fs::write(path, result.to_string())
+    fs::write(&path, result.to_string())
         .expect("Error writing file (hint: maybe denied permissions?"); //write val
 }
