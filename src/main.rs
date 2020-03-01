@@ -1,11 +1,10 @@
-use std::io::{stdin, Read};
+use std::io::stdin;
 use std::time::Duration;
 use std::thread::{sleep};
 use std::process::exit;
 use std::fs;
 use std::fs::File;
 use std::path::Path;
-use std::convert::TryFrom;
 
 enum Value { //enums to match on
 Float(f64),
@@ -86,7 +85,7 @@ fn ask_again(){ //ask again and either loop to asking for a choice or kill progr
 fn ask_write_file() -> bool { //ask if user wants to write output to file
     loop {
         let mut write_or_not = String::new();
-        println! ("Write to file? y/n (warning: this overrides the current output)");
+        println! ("Write to file? y/n (warning: this will override a file with the same name in the outputs folder)");
         stdin()
             .read_line(&mut write_or_not)
             .expect("Invalid entry! crashing");
@@ -195,7 +194,6 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
             let no_enter_input1b: &str = &user_input1b.replace("\r\n", "").replace("\n", "");
             match parse_string2(&no_enter_input1b) { //parses for an int
                 Some(Value2::Uns(u)) => {
-                    let path = Path::new("output.txt");
                     let mut data_to_write = String::new();
                     let mut multiplier_rows: isize = 0;
                     let mut multiplier_cols: isize = 0;
@@ -220,7 +218,7 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                                 println!("Enter filename:");
                                 stdin().read_line(&mut path_input)
                                     .expect("error reading filename line");
-                                path_input.truncate(path_input.len() - 1);
+                                path_input.truncate(path_input.len() - 2);
                                 let path_input_final = format! ("./outputs/{}.txt", path_input);
                                 println! ("Name: {}", path_input_final);
                                 fs::create_dir_all("outputs")
@@ -245,7 +243,7 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                                 println!("Enter filename:");
                                 stdin().read_line(&mut path_input)
                                     .expect("error reading filename line");
-                                path_input.truncate(path_input.len() - 1);
+                                path_input.truncate(path_input.len() - 2);
                                 let path_input_final = format! ("./outputs/{}.txt", path_input);
                                 println! ("Name: {}", path_input_final);
                                 fs::create_dir_all("outputs")
@@ -273,25 +271,7 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
         return false;
     }
 }
-/*
-fn write_file(f: f64) {
-    let path = Path::new("output.txt");
-    if ask_write_file() {
-        File::create(path)
-            .expect("Error writing file (hint: maybe denied permissions?");
-        let mut contents_a = fs::read_to_string(path)
-            .expect("Error: file doesnt exist"); //store current file data
-        fs::write(path, (f).to_string())
-            .expect("Error writing file (hint: maybe denied permissions?"); //write val
-        let mut contents_b = fs::read_to_string(path)
-            .expect("Error: file doesnt exist"); //store val
-        fs::write(path, contents_a.push_str(contents_b.as_str()).push_str("\n"))
-            .expect("Error writing file (hint: maybe denied permissions?"); //write previous file data, val, and a newline
-        sleep(Duration::new(0, 800000000));
-    }
-}
-to troubleshoot later
-*/
+
 fn prime_sieve(limit: usize, print: bool) -> Vec<usize> {
     let mut is_prime = vec![true; limit+1];
     is_prime[0] = false;
@@ -327,7 +307,7 @@ fn write_file_primitive (result: f64) { //write result to file
     println!("Enter filename:");
     stdin().read_line(&mut path_input)
         .expect("error reading filename line");
-    path_input.truncate(path_input.len() - 1); //remove newline
+    path_input.truncate(path_input.len() - 2); //remove newline
     let path_input_final = format! ("./outputs/{}.txt", path_input); //add extension
     println! ("Name: {}", path_input_final);
     fs::create_dir_all("outputs")
