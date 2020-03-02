@@ -2,20 +2,20 @@
 1 VERSIONINFO
 FILETYPE 0x1
 FILESUBTYPE 0x0
-FILEVERSION 0, 1, 0, 0
 FILEFLAGSMASK 0x3f
+PRODUCTVERSION 0, 1, 0, 0
+FILEVERSION 0, 1, 0, 0
 FILEFLAGS 0x0
 FILEOS 0x40004
-PRODUCTVERSION 0, 1, 0, 0
 {
 BLOCK "StringFileInfo"
 {
 BLOCK "000004b0"
 {
-VALUE "FileVersion", "0.1.0"
-VALUE "OriginalFilename", "PROGRAM.EXE"
-VALUE "ProductVersion", "0.1.0"
 VALUE "ProductName", "c_calculator_port_rust"
+VALUE "FileVersion", "0.1.0"
+VALUE "OriginalFilename", "CLI Calculator.exe"
+VALUE "ProductVersion", "0.1.0"
 VALUE "LegalCopyright", "Copyright © 2020"
 }
 }

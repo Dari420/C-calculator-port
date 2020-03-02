@@ -1,6 +1,6 @@
 [package]
-name = "c_calculator_port_rust"
-version = "0.1.0"
+name = "rust_cli_utility_calculator_for_windows"
+version = "0.1.1"
 authors = ["Dari <Dari>"]
 edition = "2018"
 build = "build.rs"
@@ -9,8 +9,8 @@ build = "build.rs"
 winres = "0.1"
 
 [package.metadata.winres]
-OriginalFilename = "PROGRAM.EXE"
-LegalCopyright = "Copyright © 2020"
+OriginalFilename = "CLI Calculator.exe"
+LegalCopyright = "Copyright © 2020 Dari."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

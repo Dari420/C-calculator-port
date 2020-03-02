@@ -5,9 +5,11 @@ use std::process::exit;
 use std::fs;
 use std::fs::File;
 use std::path::Path;
+use colored::Colorize;
+use colored::*;
 
 enum Value { //enums to match on
-Float(f64),
+    Float(f64),
 }
 
 enum Value2 {
@@ -31,7 +33,7 @@ fn parse_string(s: &str) -> Option<Value> { //parses for a float
 }
 
 fn main() {
-    println! ("Welcome to Dari's rust calculator");
+    println! ("{}", "Welcome to Dari's rust calculator");
     loop {
         calculator_choice();
         ask_again();
@@ -219,8 +221,8 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                                 stdin().read_line(&mut path_input)
                                     .expect("error reading filename line");
                                 path_input.truncate(path_input.len() - 2);
-                                let path_input_final = format! ("./outputs/{}.txt", path_input);
-                                println! ("Name: {}", path_input_final);
+                                let path_input_final = format! ("./outputs/{}.txt", path_input); //add extension
+                                println! ("Name: {}", format! ("{}.txt", path_input));
                                 fs::create_dir_all("outputs")
                                     .expect("error making output directory: directory either exists or permissions are not granted");
                                 let path = Path::new(&path_input_final);
@@ -244,8 +246,8 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                                 stdin().read_line(&mut path_input)
                                     .expect("error reading filename line");
                                 path_input.truncate(path_input.len() - 2);
-                                let path_input_final = format! ("./outputs/{}.txt", path_input);
-                                println! ("Name: {}", path_input_final);
+                                let path_input_final = format! ("./outputs/{}.txt", path_input); //add extension
+                                println! ("Name: {}", format! ("{}.txt", path_input));
                                 fs::create_dir_all("outputs")
                                     .expect("error making output directory: directory either exists or permissions are not granted");
                                 let path = Path::new(&path_input_final);
@@ -309,7 +311,7 @@ fn write_file_primitive (result: f64) { //write result to file
         .expect("error reading filename line");
     path_input.truncate(path_input.len() - 2); //remove newline
     let path_input_final = format! ("./outputs/{}.txt", path_input); //add extension
-    println! ("Name: {}", path_input_final);
+    println! ("Name: {}", format! ("{}.txt", path_input));
     fs::create_dir_all("outputs")
         .expect("error making output directory: directory either exists or permissions are not granted");
     let path = Path::new(&path_input_final);
