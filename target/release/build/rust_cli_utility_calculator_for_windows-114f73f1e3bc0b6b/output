@@ -1,0 +1,12 @@
+"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.18362.0\\x64\\rc.exe"
+RC Output:
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+------
+RC Error:
+
+------
+cargo:rustc-link-search=native=C:\Users\alexc\Documents\GitHub\C-calculator-port-Rust\target\release\build\rust_cli_utility_calculator_for_windows-114f73f1e3bc0b6b\out
+cargo:rustc-link-lib=dylib=resource
