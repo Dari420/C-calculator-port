@@ -66,8 +66,6 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
         choice.trim_end() == "e" || choice.trim_end() == "f" ||
         choice.trim_end() == "g" || choice.trim_end() == "h" { //if it is, go in a loop until the output has been given
         'outer: loop {
-            //let mut contents = fs::read_to_string(path)
-            //.expect("Error: file doesnt exist");
             let mut user_input1 = String::new(); //store number 1
             println! ("Enter first number:");
             stdin()
