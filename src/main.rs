@@ -31,7 +31,7 @@ fn parse_string(s: &str) -> Option<Value> { //parses for a float
 }
 
 fn main() {
-    println! ("{}", "Welcome to Dari's rust calculator");
+    println! ("Welcome to Dari's rust calculator");
     loop {
         calculator_choice();
         ask_again();
@@ -144,14 +144,14 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
     else if choice.trim_end() == "d" ||  choice.trim_end() == "a" { //if choice is int-specific then go here
         'outer_2: loop {
             let mut user_input1b = String::new();
-            println!("Enter limit:");
+            println!("{}", if choice.trim_end() == "a" {"Enter number of primes:"} else {"Enter table limit:"});
             stdin()
                 .read_line(&mut user_input1b)
                 .expect("Program error, crashing");
             let no_enter_input1b: &str = &user_input1b.replace("\r\n", "").replace("\n", "");
             match parse_string2(&no_enter_input1b) { //parses for an int
                 Some(Value2::Uns(u)) => {
-                    let mut data_to_write = String::new();
+                    let mut data_to_write_table = String::new();
                     let mut multiplier_rows: usize;
                     let mut multiplier_cols: usize;
                     let mut product: usize;
@@ -184,14 +184,14 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                                         result = product.to_string();
                                     }
                                     print!("{}\t", result);
-                                    &data_to_write.push_str(&result.to_string());
-                                    &data_to_write.push_str("\t");
+                                    &data_to_write_table.push_str(&result);
+                                    &data_to_write_table.push_str("\t");
                                 }
-                                &data_to_write.push_str("\n");
+                                &data_to_write_table.push_str("\n");
                                 print!("\n")
                             }
                             if ask_write_file() {
-                                write_file(data_to_write);
+                                write_file(data_to_write_table);
                             }
                             println!("Done");
                             break 'outer_2;
@@ -199,10 +199,8 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                         "a" => {
                             println! ("Calculating Primes...");
                             sleep(Duration::new(0, 300000000));
-                            prime_sieve(u, false);
-                            if ask_write_file() {
-                                write_file(format! ("{:?}", prime_sieve(u, true)).replace("[", "").replace("]", ""));
-                            }
+                            prime_slow_process(u); //uncomment if you are running out of memory
+                            //prime_fast_process(u); //comment out if you use slow version
                             break 'outer_2;
                         },
                         _ => println! ("fatal error")
@@ -218,6 +216,7 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
         return false;
     }
 }
+
 
 fn ask_again(){ //ask again and either loop to asking for a choice or kill program
     loop {
@@ -240,47 +239,7 @@ fn ask_again(){ //ask again and either loop to asking for a choice or kill progr
     }
 }
 
-fn ask_write_file() -> bool { //ask if user wants to write output to file
-    loop {
-        let mut write_or_not = String::new(); //new string
-        println! ("Write to file? y/n (warning: this will override a file with the same name in the outputs folder)");
-        stdin() //read choice
-            .read_line(&mut write_or_not)
-            .expect("Invalid entry! crashing");
-        match write_or_not.trim_end() {
-            "y" => {
-                break true;
-            },
-            "n" => {
-                println! ("Not writing to file");
-                break false;
-            },
-            _ => println! ("Invalid entry! Please choose y or n")
-        }
-    }
-}
-
-fn write_file (result: String) { //write result to file
-    let mut path_input= String::new(); //create empty path
-    println!("Enter filename:");
-    stdin()
-        .read_line(&mut path_input) //read input
-        .expect("error reading filename line");
-    path_input.truncate(path_input.len() - 2); //remove newline; for windows its -2, for linux/mac its -1
-    println! ("Name: {}", format! ("{}.txt", path_input)); //tell user name
-    let path_input_final = format! ("./outputs/{}.txt", path_input); //add extension and folder
-    fs::create_dir_all("outputs") //create folder
-        .expect("error making output directory: directory either exists or permissions are not granted");
-    let path = Path::new(&path_input_final); //create path from path
-    println! ("Writing file..");
-    sleep(Duration::new(0, 600000000)); //Slight delay to not make program look choppy
-    File::create(&path) //create file from path
-        .expect("Error writing file (hint: maybe denied permissions?");
-    fs::write(&path, result) //write contents
-        .expect("Error writing file (hint: maybe denied permissions?"); //write val
-}
-
-fn prime_sieve(limit: usize, print: bool) -> Vec<usize> {
+fn prime_fast(limit: usize, print: bool) -> Vec<usize> {
     let mut is_prime = vec![true; limit+1];
     is_prime[0] = false;
     if limit >= 1 { is_prime[1] = false }
@@ -310,6 +269,82 @@ fn prime_sieve(limit: usize, print: bool) -> Vec<usize> {
         .collect()
 }
 
+fn prime_fast_process(val: usize) {
+    prime_fast(val, false);
+    if ask_write_file() {
+        write_file(format! ("{:?}", prime_fast(val, true)).replace("[", "").replace("]", ""));
+    }
+}
+
+fn prime_slow(number: usize) -> bool{
+    for i in 2..(number/2) {
+        if number % i == 0 {
+            return false
+        }
+    }
+    return true
+}
+
+fn prime_slow_process(val: usize) {
+    let mut data_to_write_prime = String::new();
+    let mut j = 0;
+    let mut k = 1;
+    while j < val {
+        k += 1;
+        if prime_slow(k) {
+            let prime= k.to_string();
+            data_to_write_prime.push_str(&prime);
+            data_to_write_prime.push_str(", ");
+            j += 1;
+        }
+    }
+    data_to_write_prime.truncate(data_to_write_prime.len() - 2);
+    println!("{}", data_to_write_prime.replace("4, ", ""));
+    if ask_write_file() {
+        write_file(data_to_write_prime);
+    }
+}
+
+fn write_file (result: String) { //write result to file
+    let mut path_input= String::new(); //create empty path
+    println!("Enter filename:");
+    stdin()
+        .read_line(&mut path_input) //read input
+        .expect("error reading filename line");
+    path_input.truncate(path_input.len() - 2); //remove newline; for windows its -2, for linux/mac its -1
+    println! ("Name: {}", format! ("{}.txt", path_input)); //tell user name
+    let path_input_final = format! ("./outputs/{}.txt", path_input); //add extension and folder
+    fs::create_dir_all("outputs") //create folder
+        .expect("error making output directory: directory either exists or permissions are not granted");
+    let path = Path::new(&path_input_final); //create path from path
+    println! ("Writing file..");
+    sleep(Duration::new(0, 600000000)); //Slight delay to not make program look choppy
+    File::create(&path) //create file from path
+        .expect("Error writing file (hint: maybe denied permissions?");
+    fs::write(&path, result) //write contents
+        .expect("Error writing file (hint: maybe denied permissions?"); //write val
+}
+
+fn ask_write_file() -> bool { //ask if user wants to write output to file
+    loop {
+        let mut write_or_not = String::new(); //new string
+        println! ("Write to file? y/n (warning: this will override a file with the same name in the outputs folder)");
+        stdin() //read choice
+            .read_line(&mut write_or_not)
+            .expect("Invalid entry! crashing");
+        match write_or_not.trim_end() {
+            "y" => {
+                break true;
+            },
+            "n" => {
+                println! ("Not writing to file");
+                break false;
+            },
+            _ => println! ("Invalid entry! Please choose y or n")
+        }
+    }
+}
+
 //deprecated code
 /* Old multiplication table
 for _rows in 0usize..u {
@@ -319,10 +354,10 @@ for _rows in 0usize..u {
         multiplier_cols += 1;
         product = &multiplier_rows * multiplier_cols;
         print!("{}, ", product);
-        &data_to_write.push_str(&product.to_string());
-        &data_to_write.push_str(", ");
+        &data_to_write_table.push_str(&product.to_string());
+        &data_to_write_table.push_str(", ");
     }
-    &data_to_write.push_str("\n");
+    &data_to_write_table.push_str("\n");
     print!("\n")
 }
 */
