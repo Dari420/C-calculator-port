@@ -289,7 +289,7 @@ fn prime_slow_process(val: usize) {
     let mut data_to_write_prime = String::new();
     let mut j = 0;
     let mut k = 1;
-    while j < val {
+    while j < val + 1 {
         k += 1;
         if prime_slow(k) {
             let prime= k.to_string();

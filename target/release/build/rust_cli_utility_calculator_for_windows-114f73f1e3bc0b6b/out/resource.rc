@@ -1,21 +1,21 @@
 #pragma code_page(65001)
 1 VERSIONINFO
-FILEVERSION 0, 1, 0, 0
 FILEFLAGSMASK 0x3f
 FILEFLAGS 0x0
-PRODUCTVERSION 0, 1, 0, 0
 FILETYPE 0x1
-FILESUBTYPE 0x0
+PRODUCTVERSION 0, 1, 0, 0
 FILEOS 0x40004
+FILESUBTYPE 0x0
+FILEVERSION 0, 1, 0, 0
 {
 BLOCK "StringFileInfo"
 {
 BLOCK "040904b0"
 {
-VALUE "ProductName", "rust_cli_utility_calculator_for_windows"
-VALUE "ProductVersion", "1.3"
-VALUE "LegalCopyright", "Copyright © 2020 Dari."
 VALUE "FileVersion", "0.1.0"
+VALUE "ProductName", "rust_cli_utility_calculator_for_windows"
+VALUE "LegalCopyright", "Copyright © 2020 Dari."
+VALUE "ProductVersion", "1.3"
 VALUE "FileDescription", "Calculator made with ❤ by Dari"
 }
 }
