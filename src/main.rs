@@ -5,6 +5,7 @@ use std::process::exit;
 use std::fs;
 use std::fs::File;
 use std::path::Path;
+use pbr::ProgressBar;
 
 enum Value { //enums to match on
     Float(f64),
@@ -144,7 +145,7 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
     else if choice.trim_end() == "d" ||  choice.trim_end() == "a" { //if choice is int-specific then go here
         'outer_2: loop {
             let mut user_input1b = String::new();
-            println!("{}", if choice.trim_end() == "a" {"Enter number of primes:"} else {"Enter table limit:"});
+            println!("{}", if choice.trim_end() == "a" {"Enter prime limit:"} else {"Enter table limit:"});
             stdin()
                 .read_line(&mut user_input1b)
                 .expect("Program error, crashing");
@@ -193,7 +194,6 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                             if ask_write_file() {
                                 write_file(data_to_write_table);
                             }
-                            println!("Done");
                             break 'outer_2;
                         },
                         "a" => {
@@ -203,7 +203,7 @@ fn calculations(choice: String) -> bool{ //checks for choice and outputs based o
                             //prime_fast_process(u); //comment out if you use slow version
                             break 'outer_2;
                         },
-                        _ => println! ("fatal error")
+                        _ => println!("fatal error")
                     }
                 },
                 None => println!("Invalid entry! Not a number"),
@@ -287,6 +287,8 @@ fn prime_slow(number: usize) -> bool{
 
 fn prime_slow_process(val: usize) {
     let mut data_to_write_prime = String::new();
+    let casted_limit: u64 = val as u64;
+    let mut bar = ProgressBar::new(casted_limit);
     let mut j = 0;
     let mut k = 1;
     while j < val + 1 {
@@ -297,7 +299,10 @@ fn prime_slow_process(val: usize) {
             data_to_write_prime.push_str(", ");
             j += 1;
         }
+        bar.inc();
     }
+    bar.finish();
+    println!();
     data_to_write_prime.truncate(data_to_write_prime.len() - 2);
     println!("{}", data_to_write_prime.replace("4, ", ""));
     if ask_write_file() {
@@ -318,11 +323,12 @@ fn write_file (result: String) { //write result to file
         .expect("error making output directory: directory either exists or permissions are not granted");
     let path = Path::new(&path_input_final); //create path from path
     println! ("Writing file..");
-    sleep(Duration::new(0, 600000000)); //Slight delay to not make program look choppy
+    sleep(Duration::new(0, 300000000)); //Slight delay to not make program look choppy
     File::create(&path) //create file from path
         .expect("Error writing file (hint: maybe denied permissions?");
     fs::write(&path, result) //write contents
         .expect("Error writing file (hint: maybe denied permissions?"); //write val
+    println!("Done :D");
 }
 
 fn ask_write_file() -> bool { //ask if user wants to write output to file

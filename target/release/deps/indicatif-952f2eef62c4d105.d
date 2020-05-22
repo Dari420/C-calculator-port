@@ -1,0 +1,12 @@
+C:\Users\alexc\Documents\GitHub\C-calculator-port-Rust\target\release\deps\indicatif-952f2eef62c4d105.rmeta: C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\lib.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\format.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\iter.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\progress.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\style.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\utils.rs
+
+C:\Users\alexc\Documents\GitHub\C-calculator-port-Rust\target\release\deps\libindicatif-952f2eef62c4d105.rlib: C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\lib.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\format.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\iter.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\progress.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\style.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\utils.rs
+
+C:\Users\alexc\Documents\GitHub\C-calculator-port-Rust\target\release\deps\indicatif-952f2eef62c4d105.d: C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\lib.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\format.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\iter.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\progress.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\style.rs C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\utils.rs
+
+C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\lib.rs:
+C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\format.rs:
+C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\iter.rs:
+C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\progress.rs:
+C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\style.rs:
+C:\Users\alexc\.cargo\registry\src\github.com-1ecc6299db9ec823\indicatif-0.14.0\src\utils.rs:
