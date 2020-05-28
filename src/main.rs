@@ -287,8 +287,7 @@ fn prime_slow(number: usize) -> bool{
 
 fn prime_slow_process(val: usize) {
     let mut data_to_write_prime = String::new();
-    let casted_limit: u64 = val as u64;
-    let mut bar = ProgressBar::new(casted_limit);
+    let mut bar = ProgressBar::new(val as u64);
     let mut j = 0;
     let mut k = 1;
     while j < val + 1 {
